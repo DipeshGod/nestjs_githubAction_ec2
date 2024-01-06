@@ -19,7 +19,7 @@ RUN npm run build
 FROM nginx:latest
 
 # Copy the built files from the Node.js image to NGINX image
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # Remove default NGINX configuration
 RUN rm /etc/nginx/conf.d/default.conf
