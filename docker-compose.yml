@@ -4,32 +4,15 @@ services:
   nestjs-api:
     image: dipeshgod/nestjs-api
     ports:
-      - '3000:3000'
+      - '3000:3000' # Map the NestJS app port
 
   nginx:
     image: nginx:latest
     ports:
-      - '80:80'
-      - '443:443' # Expose port 443 for HTTPS
+      - '80:80' # Map the nginx server port
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - /etc/letsencrypt:/etc/letsencrypt # Mount the Let's Encrypt directory
-    depends_on:
-      - nestjs-api
-    networks:
-      - nestjs-nginx-network
-
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-      - /var/lib/letsencrypt:/var/lib/letsencrypt
-    command: certonly --webroot --webroot-path=/var/lib/letsencrypt --email dipeshonblack@gmail.com --agree-tos -d nestjs-api.duckdns.org
-    depends_on:
-      - nginx
-    networks:
-      - nestjs-nginx-network
+      - ./nginx.conf:/etc/nginx/nginx.conf # Mount your nginx.conf file
 
 networks:
-  nestjs-nginx-network:
+  default:
     name: nestjs-nginx-network
