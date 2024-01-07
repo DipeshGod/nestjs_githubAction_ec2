@@ -5,14 +5,21 @@ services:
     image: dipeshgod/nestjs-api
     ports:
       - '3000:3000' # Map the NestJS app port
+    networks:
+      - nestjs-nginx-network
 
   nginx:
     image: nginx:latest
     ports:
-      - '80:80' # Map the nginx server port
+      - '80:80' # HTTP traffic
+      - '443:443' # HTTPS traffic
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf # Mount your nginx.conf file
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - /home/ubuntu/nestjs-api.duckdns.org.crt:/etc/nginx/ssl/nestjs-api.duckdns.org.crt
+      - /home/ubuntu/nestjs-api.duckdns.org.key:/etc/nginx/ssl/nestjs-api.duckdns.org.key
+    networks:
+      - nestjs-nginx-network
 
 networks:
-  default:
+  nestjs-nginx-network:
     name: nestjs-nginx-network
