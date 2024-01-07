@@ -2,7 +2,7 @@ name: CICD
 
 on:
   push:
-    branches: [with-docker-compose-and-nginx]
+    branches: [main]
 
 jobs:
   build:
