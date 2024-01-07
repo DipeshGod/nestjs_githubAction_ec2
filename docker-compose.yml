@@ -3,6 +3,8 @@ version: '3.8'
 services:
   nestjs-api:
     image: dipeshgod/nestjs-api
+    ports:
+      - '3000:3000'
 
   nginx:
     image: nginx:latest
