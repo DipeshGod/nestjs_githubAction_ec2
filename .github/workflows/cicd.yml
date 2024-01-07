@@ -2,7 +2,7 @@ name: CICD
 
 on:
   push:
-    branches: [main]
+    branches: [with-docker-compose-and-nginx]
 
 jobs:
   build:
@@ -21,9 +21,7 @@ jobs:
     needs: build
     runs-on: [aws-ec2]
     steps:
-      - name: Pull image from docker hub
-        run: docker pull dipeshgod/nestjs-api:latest
-      - name: Delete old container
-        run: docker rm -f nodejs-app-container
-      - name: Run docker container
-        run: docker run -d -p 3000:3000 --name nodejs-app-container dipeshgod/nestjs-api
+      - name: Stop and remove existing containers
+        run: docker-compose down
+      - name: Deploy using docker-compose
+        run: docker-compose up -d

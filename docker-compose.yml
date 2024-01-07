@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  nestjs-api:
+    image: dipeshgod/nestjs-api
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+
+networks:
+  default:
+    name: nestjs-nginx-network
